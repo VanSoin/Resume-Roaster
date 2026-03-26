@@ -1,4 +1,4 @@
- #analyzing word count-doing a function on my own
+#analyzing word count-doing a function on my own
 #no int or any decleration required for varaibles
 #no flower brackets in python, no int declertions in python
 #no semilicons in python
@@ -17,7 +17,7 @@ def analyze_word_count(resume_text):
     else:
         return f"Your resume meets the ideal range, it has {count_of_words} words"
 
-# test it
+# test it, this has to be in same indented with def if its inside def it won't work
 print(analyze_word_count("some resume text here"))
 print(analyze_word_count("word " * 450))
 print(analyze_word_count("word " * 1000))
