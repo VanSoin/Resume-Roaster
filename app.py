@@ -3,6 +3,7 @@ import time
 import streamlit as st
 from groq import Groq
 from dotenv import load_dotenv
+from utils import analyze_word_count, extract_text_from_pdf,validate_file_size
 
 load_dotenv()
 
@@ -20,9 +21,14 @@ st.set_page_config(page_title="Resume Roaster", page_icon="🔥")
 
 st.title("🔥 Resume Roaster")
 st.subheader("Paste your resume below and get brutally honest AI feedback")
-
 resume_text = st.text_area("Your Resume", height=300, placeholder="Paste your resume text here...")
-
+uploaded_file = st.file_uploader("Upload your resume as PDF", type="pdf")
+st.caption("Note: PDF extraction may affect formatting. For best results, paste your resume as plain text.")
+if uploaded_file is not None:
+    if not validate_file_size(uploaded_file):
+        st.warning("File size exceeds 2MB limit.")
+    else:
+        resume_text=extract_text_from_pdf(uploaded_file)
 if st.button("Roast My Resume"):
     word_count = len(resume_text.strip().split())
     time_since_last = time.time() - st.session_state.last_request_time
@@ -55,7 +61,7 @@ if st.button("Roast My Resume"):
                         messages=[
                             {
                                 "role": "system",
-                                "content": "You are a brutally honest resume reviewer. Analyse the resume and give scores out of 10 for: Clarity, Impact, and ATS Compatibility. Then list 3 specific improvements."
+                                "content": "You are a brutally honest resume reviewer. Analyse the resume and give scores out of 10 for: Clarity, Impact, and ATS Compatibility. Then list 3 specific improvements.The resume text may have formatting issues due to PDF extraction.Focus on content and ignore formatting artifacts."
                             },
                             {
                                 "role": "user",
@@ -74,3 +80,5 @@ if st.button("Roast My Resume"):
 
             except Exception as e:
                 st.error("Something went wrong while analysing your resume. Please try again in a moment.")
+        
+       
