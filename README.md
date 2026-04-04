@@ -38,5 +38,16 @@ resume-roaster/
 4. Run the app
    streamlit run app.py
 
+## Running with Docker
+
+1. Build the image
+   docker build -t resume-roaster .
+
+2. Run the container
+   docker run -p 8501:8501 --env-file .env resume-roaster
+
+3. Open in browser
+   http://localhost:8501
+
 ## Note
 Never commit your .env file. Add it to .gitignore.
