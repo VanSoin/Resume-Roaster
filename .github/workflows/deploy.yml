@@ -20,7 +20,7 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_KEY }}
           script: |
-            cd /home/ec2-user/resume-roaster
+            cd /home/ec2-user/Resume-Roaster
             git pull origin main
             echo "GROQ_API_KEY=${{ secrets.GROQ_API_KEY }}" > .env
             docker stop resume-roaster || true
