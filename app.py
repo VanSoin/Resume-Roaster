@@ -19,7 +19,7 @@ if "cache" not in st.session_state:
 
 st.set_page_config(page_title="Resume Roaster", page_icon="🔥")
 
-st.title("🔥 Resume Roaster")
+st.title("🔥 Resume Roaster v2")
 st.subheader("Paste your resume below and get brutally honest AI feedback")
 resume_text = st.text_area("Your Resume", height=300, placeholder="Paste your resume text here...")
 uploaded_file = st.file_uploader("Upload your resume as PDF", type="pdf")
