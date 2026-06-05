@@ -1,0 +1,29 @@
+name: Deploy Resume Roaster to EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_KEY }}
+          script: |
+            cd /home/ec2-user/resume-roaster
+            git pull origin main
+            echo "GROQ_API_KEY=${{ secrets.GROQ_API_KEY }}" > .env
+            docker stop resume-roaster || true
+            docker rm resume-roaster || true
+            docker build -t resume-roaster .
+            docker run -d -p 8501:8501 --name resume-roaster --env-file .env resume-roaster
